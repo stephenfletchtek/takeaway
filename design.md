@@ -75,6 +75,10 @@ class Dishes
   def add(dish) #dish object
     #add dish to list
   end
+
+  def all
+    # returns list of all dishes
+  end
 end
 
 class Order
@@ -89,10 +93,14 @@ class Order
   def remove(selection) # selection is a dish object and quantity
     #remove selection from list
   end
+
+  def contents
+    # returns order list
+  end
 end
 
 class Selection
-  def intialize(description, qty)
+  def intialize(dish, qty)
     # dish object
     # qty
   end 
@@ -108,7 +116,8 @@ end
 
 class FindDish
   def initialise(description, dishes)
-    # dish found
+    # description
+    # all dishes
   end
 
   def find
@@ -117,13 +126,19 @@ class FindDish
 end
 
 class FormatDish
-  def view(dish) # a dish object
+  def initialize(dish) #dish object
+  end
+
+  def view
     returns {description: "", price: ""}
   end
 end
 
 class FormatSelection
-  def view(selection) # a selection object
+  def initialize(selection) #selection object
+  end
+  
+  def view
     returns {dish: Dish.description, qty: Int}
   end
 end
