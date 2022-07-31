@@ -224,6 +224,31 @@ dishes = Dishes.new
 dishes.add(spag_bol)
 dishes.add(beef_stew)
 expect(dishes.all) #=>[spag_bol, beef_stew]
+
+#5
+dishes = Dishes.new
+dishes.add(Dish.new("Spaghetti Bolognese", 5.99))
+dishes.add(Dish.new("Beef Stew", 6.5))
+s1 = Selection.new(FindDish.new("Spaghetti Bolognese", dishes), 2)
+s2 = Selection.new(FindDish.new("Beef Stew", dishes), 3)
+o = Order.new
+o.add(s1)
+o.add(s2)
+o.add(s1)
+expect(o.contents) #=> [s1, s2]
+
+#6
+dishes = Dishes.new
+dishes.add(Dish.new("Spaghetti Bolognese", 5.99))
+dishes.add(Dish.new("Beef Stew", 6.5))
+s1 = Selection.new(FindDish.new("Spaghetti Bolognese", dishes), 2)
+s2 = Selection.new(FindDish.new("Beef Stew", dishes), 3)
+s3 = Selection.new(FindDish.new("Spaghetti Bolognese", dishes), 1)
+o = Order.new
+o.add(s1)
+o.add(s2)
+o.remove(s3)
+expect(o.contents) #=> [s1, s2]
 ```
 
 # UNIT TESTS

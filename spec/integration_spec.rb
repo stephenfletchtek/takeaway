@@ -65,4 +65,30 @@ RSpec.describe Customer do
     expect(dishes.all).to eq [spag_bol, beef_stew]
   end
   
+  xit "adds 2 selections to the order" do
+    dishes = Dishes.new
+    dishes.add(Dish.new("Spaghetti Bolognese", 5.99))
+    dishes.add(Dish.new("Beef Stew", 6.5))
+    s1 = Selection.new(FindDish.new("Spaghetti Bolognese", dishes), 2)
+    s1 = Selection.new(FindDish.new("Beef Stew", dishes), 3)
+    o = Order.new
+    o.add(s1)
+    o.add(s2)
+    o.add(s1)
+    expect(o.contents).to eq [s1, s2]
+  end
+
+  xit "removes a selection from the order" do
+    dishes = Dishes.new
+    dishes.add(Dish.new("Spaghetti Bolognese", 5.99))
+    dishes.add(Dish.new("Beef Stew", 6.5))
+    s1 = Selection.new(FindDish.new("Spaghetti Bolognese", dishes), 2)
+    s2 = Selection.new(FindDish.new("Beef Stew", dishes), 3)
+    s3 = Selection.new(FindDish.new("Spaghetti Bolognese", dishes), 1)
+    o = Order.new
+    o.add(s1)
+    o.add(s2)
+    o.remove(s3)
+    expect(o.contents).to eq[s1, s2]
+  end
 end
