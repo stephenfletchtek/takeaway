@@ -16,11 +16,12 @@ class Customer
   end
 
   def view_receipt(order = @orders[-1]) #order object
-    o = order.map do |selection|
-      a = selection.dish.description
-      b = selection.qty
-      c = selection.dish.price
-      {description: a, qty: b, line_total: b * c}
+    output = order.map do |sel|
+      desc = sel.dish.description
+      qty = sel.qty
+      price = sel.dish.price
+      {description: desc, qty: qty, line_total: "£#{qty * price}"}
     end
+    output << order.sum { |sel| "£#{sel.qty * sel.dish.price }" }
   end
 end

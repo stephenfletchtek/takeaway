@@ -47,11 +47,11 @@ RSpec.describe Customer do
     o = double :order, contents: [s1, s2]
     my_map = [
       {description: "Spaghetti Bolognese", qty: 2, line_total: "£11.98"},
-      {description: "Beef Stew", qty: 3, line_total: "£13.00"},
-      {order_total: "£24.98"}
+      {description: "Beef Stew", qty: 3, line_total: "£13.00"}, 
     ]
     expect(o).to receive(:map).and_return(my_map)
-      
+    order_total = {order_total: "£24.98"}
+    expect(o).to receive(:sum).and_return(order_total)
     c = Customer.new
     c.purchase(o)
     result = c.view_receipt
