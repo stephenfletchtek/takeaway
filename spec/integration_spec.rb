@@ -89,6 +89,6 @@ RSpec.describe Customer do
     o.add(s1)
     o.add(s2)
     o.remove(s3)
-    expect(o.contents).to eq[s1, s2]
+    expect(o.contents).to eq({d1 => 1, d2 => 3})
   end
 end

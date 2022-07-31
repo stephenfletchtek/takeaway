@@ -248,15 +248,16 @@ o = Order.new
 o.add(s1)
 o.add(s2)
 o.remove(s3)
-expect(o.contents) #=> [s1, s2]
+expect(o.contents) #=> {d1 => 1, d2 => 3}
 ```
 
 # UNIT TESTS
 
 ```ruby
-
-
-#2
+#1
 dishes = Dishes.new
 expect(dishes.all) #=>fail "No dishes to show!"
+
+#2
+
 ```
