@@ -2,8 +2,8 @@ require 'customer'
 
 RSpec.describe Customer do
   xit "shows menu" do
-    spag_bol = Dish.new("Spaghetti Bolognese", "£5.99")
-    beef_stew = Dish.new("Beef Stew", "£6.50")
+    spag_bol = Dish.new("Spaghetti Bolognese", 5.99)
+    beef_stew = Dish.new("Beef Stew", 6.5)
     dishes = Dishes.new
     dishes.add(spag_bol)
     dishes.add(beef_stew)
@@ -11,15 +11,15 @@ RSpec.describe Customer do
     result = c.menu_view(dishes)
     output = [
       {description: "Spaghetti Bolognese", price: "£5.99"},
-      {description: "Beef Stew", price: "£6.50"}
+      {description: "Beef Stew", price: "£6.5"}
     ]
     expect(result).to eq output
   end
 
   xit "places order" do
     dishes = Dishes.new
-    dishes.add(Dish.new("Spaghetti Bolognese", "£5.99"))
-    dishes.add(Dish.new("Beef Stew", "£6.50"))
+    dishes.add(Dish.new("Spaghetti Bolognese", 5.99))
+    dishes.add(Dish.new("Beef Stew", 6.5))
     s1 = Selection.new(FindDish.new("Spaghetti Bolognese", dishes), 2)
     s1 = Selection.new(FindDish.new("Beef Stew", dishes), 3)
     o = Order.new
@@ -38,8 +38,8 @@ RSpec.describe Customer do
 
   xit "views receipt" do
     dishes = Dishes.new
-    dishes.add(Dish.new("Spaghetti Bolognese", "£5.99"))
-    dishes.add(Dish.new("Beef Stew", "£6.50"))
+    dishes.add(Dish.new("Spaghetti Bolognese", 5.99))
+    dishes.add(Dish.new("Beef Stew", 6.5))
     s1 = Selection.new(FindDish.new("Spaghetti Bolognese", dishes), 2)
     s1 = Selection.new(FindDish.new("Beef Stew", dishes), 3)
     o = Order.new
@@ -55,4 +55,14 @@ RSpec.describe Customer do
     ]
     expect(result).to eq output
   end
+
+  xit "adds 2 dishes and shows list" do
+    spag_bol = Dish.new("Spaghetti Bolognese", 5.99)
+    beef_stew = Dish.new("Beef Stew", 6.5)
+    dishes = Dishes.new
+    dishes.add(spag_bol)
+    dishes.add(beef_stew)
+    expect(dishes.all).to eq [spag_bol, beef_stew]
+  end
+  
 end

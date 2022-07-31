@@ -215,5 +215,23 @@ o.add(s2)
 c = Customer.new
 c.purchase(order)
 result = c.view_receipt(order)
-expect(result).to eq # => [{description: "Spaghetti Bolognese", qty: 2, line_total: "£11.98"},{description: "Beef Stew, qty: 3, line_total: "£13.00"},{order_total: "£24.98"}]
+expect(result).to eq # => [{description: "Spaghetti Bolognese", qty: 2, line_total: "£11.98"},{description: "Beef Stew", qty: 3, line_total: "£13.00"},{order_total: "£24.98"}]
+
+#4
+spag_bol = Dish.new("Spaghetti Bolognese", 5.99)
+beef_stew = Dish.new("Beef Stew", 6.5)
+dishes = Dishes.new
+dishes.add(spag_bol)
+dishes.add(beef_stew)
+expect(dishes.all) #=>[spag_bol, beef_stew]
+```
+
+# UNIT TESTS
+
+```ruby
+
+
+#2
+dishes = Dishes.new
+expect(dishes.all) #=>fail "No dishes to show!"
 ```

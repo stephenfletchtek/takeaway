@@ -41,7 +41,6 @@ RSpec.describe Customer do
   it "views receipt" do
     d1 = double :dish, description: "Spaghetti Bolognese", price: 5.99
     d2 = double :dish, description: "Beef Stew", price: 6.5
-    dishes = double :dishes, all: [d1, d2]
     s1 = double :selection, dish: d1, qty: 2
     s2 = double :selection, dish: d2, qty: 3
     o = double :order, contents: [s1, s2]
