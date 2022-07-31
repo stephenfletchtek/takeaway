@@ -58,17 +58,6 @@ I would like to receive a text such as "Thank you! Your order was placed and wil
   │find    ├─────┘   │view       │
   └────────┘         └───────────┘
 
-
-
-
-
-
-
-
-
-
-
-
 ```ruby
 class Customer
   def initialize
@@ -87,7 +76,7 @@ class Customer
   def view_receipt(order) #order object
     #show a selection object from orders list
   end
-ends
+end
 
 class Dishes
   def initialize
@@ -167,4 +156,64 @@ class FindDish
     #return dish object found
   end
 end
+```
+
+# Integration tests
+```ruby
+class Customer
+  def initialize
+    #orders
+  end
+
+  def menu_view(dishes) #dishes object
+    # display all dishes
+  end
+    
+  def purchase(order) #order object
+    #add selection to orders
+    #send text message
+  end
+
+  def view_receipt(order) #order object
+    #show a selection object from orders list
+  end
+end
+
+# 1
+spag_bol = Dish.new("Spaghetti Bolognese", "£5.99")
+beef_stew = Dish.new("Beef Stew", "£6.50")
+dishes = Dishes.new
+dishes.add(spag_bol)
+dishes.add(beef_stew)
+c = Customer.new
+result = c.menu_view(dishes)
+expect(result).to eq # => [{description: "Spaghetti Bolognese", price: "£5.99"},{description: "Beef Stew", price: "£6.50"}]
+
+# 2
+dishes = Dishes.new
+dishes.add(Dish.new("Spaghetti Bolognese", "£5.99"))
+dishes.add(Dish.new("Beef Stew", "£6.50"))
+s1 = Selection.new(FindDish.new("Spaghetti Bolognese", dishes), 2)
+s1 = Selection.new(FindDish.new("Beef Stew", dishes), 3)
+o = Order.new
+o.add(s1)
+o.add(s2)
+c = Customer.new
+result = c.purchase(order)
+expect(result).to eq # => "Thank you! Your order was placed and will be delivered before 18:52"
+# *** and send a text message! ***
+
+# 3
+dishes = Dishes.new
+dishes.add(Dish.new("Spaghetti Bolognese", "£5.99"))
+dishes.add(Dish.new("Beef Stew", "£6.50"))
+s1 = Selection.new(FindDish.new("Spaghetti Bolognese", dishes), 2)
+s1 = Selection.new(FindDish.new("Beef Stew", dishes), 3)
+o = Order.new
+o.add(s1)
+o.add(s2)
+c = Customer.new
+c.purchase(order)
+result = c.view_receipt(order)
+expect(result).to eq # => [{description: "Spaghetti Bolognese", qty: 2, line_total: "£11.98"},{description: "Beef Stew, qty: 3, line_total: "£13.00"},{order_total: "£24.98"}]
 ```
