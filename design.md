@@ -209,9 +209,9 @@ dishes.add(Dish.new("Spaghetti Bolognese", "£5.99"))
 dishes.add(Dish.new("Beef Stew", "£6.50"))
 s1 = Selection.new(FindDish.new("Spaghetti Bolognese", dishes), 2)
 s1 = Selection.new(FindDish.new("Beef Stew", dishes), 3)
-o = Order.new
-o.add(s1)
-o.add(s2)
+order = Order.new
+order.add(s1)
+order.add(s2)
 c = Customer.new
 c.purchase(order)
 result = c.view_receipt(order)
@@ -253,11 +253,22 @@ expect(o.contents) #=> {d1 => 1, d2 => 3}
 #7
 dishes = Dishes.new
 dishes.add(Dish.new("Spaghetti Bolognese", 5.99))
+dishes.add(Dish.new("Beef Stew", 6.5))
 s1 = Selection.new(FindDish.new("Spaghetti Bolognese", dishes), 2)
 s2 = Selection.new(FindDish.new("Beef Stew", dishes), 3)
 o = Order.new
 o.add(s1)
 expect { o.remove(s2) } #=> "Item not in basket!"
+
+#8
+dishes = Dishes.new
+d1 = Dish.new("Spaghetti Bolognese", 5.99)
+d2 = Dish.new("Beef Stew", 6.5)
+dishes.add(d1)
+dishes.add(d2)
+result = FindDish.new("Spaghetti Bolognese", dishes)
+expect(result).to eq d1
+
 ```
 
 # UNIT TESTS

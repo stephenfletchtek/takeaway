@@ -16,18 +16,18 @@ RSpec.describe Customer do
     expect(result).to eq output
   end
 
-  xit "places order" do
+  it "places order" do
     dishes = Dishes.new
     dishes.add(Dish.new("Spaghetti Bolognese", 5.99))
     dishes.add(Dish.new("Beef Stew", 6.5))
-    s1 = Selection.new(FindDish.new("Spaghetti Bolognese", dishes), 2)
-    s1 = Selection.new(FindDish.new("Beef Stew", dishes), 3)
-    o = Order.new
-    o.add(s1)
-    o.add(s2)
+    # s1 = Selection.new(FindDish.new("Spaghetti Bolognese", dishes), 2)
+    # s1 = Selection.new(FindDish.new("Beef Stew", dishes), 3)
+    order = Order.new
+    # order.add(s1)
+    # order.add(s2)
     c = Customer.new
-    result = c.purchase(order)
-    expect(result).to eq # => "Thank you! Your order was placed and will be delivered before 18:52"
+    # result = c.purchase(order)
+    # expect(result).to eq # => "Thank you! Your order was placed and will be delivered before 18:52"
   end
 
   xit "fails" do
@@ -101,4 +101,15 @@ RSpec.describe Customer do
     o.add(s1)
     expect { o.remove(s2) }.to raise_error "Item not in basket!"
   end
+
+  it "finds a dish" do
+    dishes = Dishes.new
+    d1 = Dish.new("Spaghetti Bolognese", 5.99)
+    d2 = Dish.new("Beef Stew", 6.5)
+    dishes.add(d1)
+    dishes.add(d2)
+    f = FindDish.new("Spaghetti Bolognese", dishes)
+    expect(f.find).to eq d1
+  end
+
 end
