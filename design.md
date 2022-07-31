@@ -160,25 +160,6 @@ end
 
 # Integration tests
 ```ruby
-class Customer
-  def initialize
-    #orders
-  end
-
-  def menu_view(dishes) #dishes object
-    # display all dishes
-  end
-    
-  def purchase(order) #order object
-    #add selection to orders
-    #send text message
-  end
-
-  def view_receipt(order) #order object
-    #show a selection object from orders list
-  end
-end
-
 # 1
 spag_bol = Dish.new("Spaghetti Bolognese", "£5.99")
 beef_stew = Dish.new("Beef Stew", "£6.50")
@@ -269,6 +250,20 @@ dishes.add(d2)
 result = FindDish.new("Spaghetti Bolognese", dishes)
 expect(result).to eq d1
 
+#9
+d1 = Dish.new("Spaghetti Bolognese", 5.99)
+sel = Selection.new(d1, 2)
+expect(sel.dish).to eq d1
+
+#10
+d1 = Dish.new("Spaghetti Bolognese", 5.99)
+sel = Selection.new(d1, 2)
+expect(sel.qty).to eq 2
+
+#11
+d1 = Dish.new("Spaghetti Bolognese", 5.99)
+sel = Selection.new(d1, 2)
+expect(sel.view).to eq ({dish: d1.description, qty: 2})
 ```
 
 # UNIT TESTS
