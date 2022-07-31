@@ -4,7 +4,7 @@ class Customer
   end
 
   def menu_view(dishes) #dishes object
-    dishes.map{ |dish| dish.view }
+    dishes.map(&:view)
   end
     
   def purchase(order, time = Time.now) #order object
@@ -15,7 +15,12 @@ class Customer
     # *** send text message ***
   end
 
-  def view_receipt(order) #order object
-    #show a selection object from orders list
+  def view_receipt(order = @orders[-1]) #order object
+    o = order.map do |selection|
+      a = selection.dish.description
+      b = selection.qty
+      c = selection.dish.price
+      {description: a, qty: b, line_total: b * c}
+    end
   end
 end
