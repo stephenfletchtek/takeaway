@@ -21,31 +21,53 @@ I would like to receive a text such as "Thank you! Your order was placed and wil
 
 # DESIGN
 
-       ┌─────────────┐
-       │ Customer    │
-       ├─────────────┤
-       │ menu_view   │
-       │             │
-       │ order       │
-       │             ├───────────────┐
-       │ view_receipt│               │
-       └─┬─────────┬─┘               │
-         │         │                 │
- ┌───────▼──┐  ┌───▼─────────┐  ┌────▼────┐
- │FormatDish│  │ ViewReceipt │  │Selection│
- ├──────────┤  ├─────────────┤  ├─────────┤
- │format    │  │ view        │  │add      │
- │          │  │             │  │         │
- │          │  │             │  │remove   │
- └───────┬──┘  └─┬───────────┘  └─────────┘
-         │       │
-       ┌─▼───────▼───┐
-       │ Dish        │
-       ├─────────────┤
-       │ Description │
-       │             │
-       │ Price       │
-       └─────────────┘
+         ┌────────────┐
+         │Customer    │
+         ├────────────┤
+         │menu_view   │
+         │            │
+         │purchase    │
+         │            │
+         │view_receipt│
+         └┬───────────┤
+          │           │
+          │           │
+  ┌───────▼┐          │
+  │Order   │          │
+  ├────────┤          │
+  │add     │          │
+  │        │         ┌▼─────┐
+  │remove  │         │Dishes│
+  │        │         ├──────┤
+  │contents│         │add   │
+  └────┬───┘     ┌───►      │
+       │         │   │all   │
+  ┌────▼────┐    │   └───┬──┘
+  │Selection│    │       │
+  ├─────────┤    │       │
+  │dish     │    │       │
+  │         │    │       │
+  │qty      │    │       │
+  │         │    │   ┌───▼───────┐
+  │view     │    │   │Dish       │
+  └────┬────┘    │   ├───────────┤
+       │         │   │description│
+  ┌────▼───┐     │   │           │
+  │FindDish│     │   │qty        │
+  ├────────┤     │   │           │
+  │find    ├─────┘   │view       │
+  └────────┘         └───────────┘
+
+
+
+
+
+
+
+
+
+
+
 
 ```ruby
 class Customer
@@ -57,7 +79,7 @@ class Customer
     # display all dishes
   end
     
-  def complete(order) #order object
+  def purchase(order) #order object
     #add selection to orders
     #send text message
   end
@@ -99,6 +121,23 @@ class Order
   end
 end
 
+class Dish
+  def initialize(description, price)
+  end
+
+  def description
+    #return description
+  end
+
+  def price
+    # return price
+  end
+
+   def view
+    returns {description: "", price: ""}
+  end
+end
+
 class Selection
   def intialize(dish, qty)
     # dish object
@@ -112,6 +151,10 @@ class Selection
   def qty
     #return qty
   end
+
+  def view
+    returns {dish: Dish.description, qty: Int}
+  end
 end
 
 class FindDish
@@ -124,36 +167,4 @@ class FindDish
     #return dish object found
   end
 end
-
-class FormatDish
-  def initialize(dish) #dish object
-  end
-
-  def view
-    returns {description: "", price: ""}
-  end
-end
-
-class FormatSelection
-  def initialize(selection) #selection object
-  end
-  
-  def view
-    returns {dish: Dish.description, qty: Int}
-  end
-end
-
-class Dish
-  def initialize(description, price)
-  end
-
-  def description
-    #return description
-  end
-
-  def price
-    # return price
-  end
-end
-
 ```
