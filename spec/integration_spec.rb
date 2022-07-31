@@ -20,43 +20,47 @@ RSpec.describe Customer do
     dishes = Dishes.new
     dishes.add(Dish.new("Spaghetti Bolognese", 5.99))
     dishes.add(Dish.new("Beef Stew", 6.5))
-    # s1 = Selection.new(FindDish.new("Spaghetti Bolognese", dishes), 2)
-    # s1 = Selection.new(FindDish.new("Beef Stew", dishes), 3)
+    s1 = Selection.new(FindDish.new("Spaghetti Bolognese", dishes), 2)
+    s2 = Selection.new(FindDish.new("Beef Stew", dishes), 3)
     order = Order.new
-    # order.add(s1)
-    # order.add(s2)
+    order.add(s1)
+    order.add(s2)
     c = Customer.new
-    # result = c.purchase(order)
-    # expect(result).to eq # => "Thank you! Your order was placed and will be delivered before 18:52"
+    time = Time.now
+    promise = (time + 3600).strftime("%H:%M")
+    result = c.purchase(order, time)
+    expect(result).to eq "Thank you! Your order was placed and will be delivered before #{promise}"
   end
 
-  xit "fails" do
+  it "fails" do
     c = Customer.new
     o = Order.new
     expect { c.purchase(o) }.to raise_error "Your basket is empty!"
   end
 
-  xit "views receipt" do
+  it "views receipt" do
     dishes = Dishes.new
     dishes.add(Dish.new("Spaghetti Bolognese", 5.99))
     dishes.add(Dish.new("Beef Stew", 6.5))
-    s1 = Selection.new(FindDish.new("Spaghetti Bolognese", dishes), 2)
-    s1 = Selection.new(FindDish.new("Beef Stew", dishes), 3)
-    o = Order.new
-    o.add(s1)
-    o.add(s2)
+    d1 = FindDish.new("Spaghetti Bolognese", dishes)
+    d2 = FindDish.new("Beef Stew", dishes)
+    s1 = Selection.new(d1.find, 2)
+    s2 = Selection.new(d2.find, 3)
+    order = Order.new
+    order.add(s1)
+    order.add(s2)
     c = Customer.new
     c.purchase(order)
     result = c.view_receipt
     output = [
-      {description: "Spaghetti Bolognese", qty: 2, line_total: "£11.98"},
-      {description: "Beef Stew", qty: 3, line_total: "£13.00"},
-      {order_total: "£24.98"}
+      {description: "Spaghetti Bolognese", qty: 2, line_total: 11.98},
+      {description: "Beef Stew", qty: 3, line_total: 19.5},
+      {order_total: 31.48}
     ]
     expect(result).to eq output
   end
 
-  xit "adds 2 dishes and shows list" do
+  it "adds 2 dishes and shows list" do
     spag_bol = Dish.new("Spaghetti Bolognese", 5.99)
     beef_stew = Dish.new("Beef Stew", 6.5)
     dishes = Dishes.new
@@ -65,38 +69,39 @@ RSpec.describe Customer do
     expect(dishes.all).to eq [spag_bol, beef_stew]
   end
   
-  xit "adds 2 selections to the order" do
+  it "adds 2 selections to the order" do
     dishes = Dishes.new
     dishes.add(Dish.new("Spaghetti Bolognese", 5.99))
     dishes.add(Dish.new("Beef Stew", 6.5))
-    s1 = Selection.new(FindDish.new("Spaghetti Bolognese", dishes), 2)
-    s1 = Selection.new(FindDish.new("Beef Stew", dishes), 3)
+    s1 = Selection.new(FindDish.new("Spaghetti Bolognese", dishes).find, 2)
+    s2 = Selection.new(FindDish.new("Beef Stew", dishes).find, 3)
     o = Order.new
     o.add(s1)
     o.add(s2)
     o.add(s1)
-    expect(o.contents).to eq [s1, s2]
+    expect(o.contents).to eq ({s1.dish => 4, s2.dish => 3})
   end
 
-  xit "removes a selection from the order" do
+  it "removes a selection from the order" do
     dishes = Dishes.new
     dishes.add(Dish.new("Spaghetti Bolognese", 5.99))
     dishes.add(Dish.new("Beef Stew", 6.5))
-    s1 = Selection.new(FindDish.new("Spaghetti Bolognese", dishes), 2)
-    s2 = Selection.new(FindDish.new("Beef Stew", dishes), 3)
-    s3 = Selection.new(FindDish.new("Spaghetti Bolognese", dishes), 1)
+    s1 = Selection.new(FindDish.new("Spaghetti Bolognese", dishes).find, 2)
+    s2 = Selection.new(FindDish.new("Beef Stew", dishes).find, 3)
+    s3 = Selection.new(FindDish.new("Spaghetti Bolognese", dishes).find, 1)
     o = Order.new
     o.add(s1)
     o.add(s2)
     o.remove(s3)
-    expect(o.contents).to eq({d1 => 1, d2 => 3})
+    expect(o.contents).to eq ({s1.dish => 1, s2.dish => 3})
   end
 
-  xit "fails" do
+  it "fails" do
     dishes = Dishes.new
     dishes.add(Dish.new("Spaghetti Bolognese", 5.99))
-    s1 = Selection.new(FindDish.new("Spaghetti Bolognese", dishes), 2)
-    s2 = Selection.new(FindDish.new("Beef Stew", dishes), 3)
+    dishes.add(Dish.new("Beef Stew", 6.5))
+    s1 = Selection.new(FindDish.new("Spaghetti Bolognese", dishes).find, 2)
+    s2 = Selection.new(FindDish.new("Beef Stew", dishes).find, 3)
     o = Order.new
     o.add(s1)
     expect { o.remove(s2) }.to raise_error "Item not in basket!"

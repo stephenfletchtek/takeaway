@@ -7,13 +7,7 @@ RSpec.describe Customer do
     beef_stew = double(:beef_stew,
       view: {description: "Beef Stew", price: "£6.50"})
     dishes = double(:dishes)
-    expect(dishes).to receive(:all)
-      .and_return([spag_bol, beef_stew])
-    # think about this later
-    # expect(dishes).to receive(:map)
-      # .and_yield(spag_bol)
-      # .and_yield(beef_stew)
-      # .and_return([spag_bol.view, beef_stew.view])
+    expect(dishes).to receive(:all).and_return([spag_bol, beef_stew])
     c = Customer.new
     result = c.menu_view(dishes)
     output = [
@@ -47,19 +41,27 @@ RSpec.describe Customer do
     s2 = double :selection, dish: d2, qty: 3
     o = double :order, contents: [s1, s2]
     my_map = [
-      {description: "Spaghetti Bolognese", qty: 2, line_total: "£11.98"},
-      {description: "Beef Stew", qty: 3, line_total: "£13.00"}, 
+      {description: "Spaghetti Bolognese", qty: 2, line_total: 11.98},
+      {description: "Beef Stew", qty: 3, line_total: 19.5}, 
     ]
-    expect(o).to receive(:map).and_return(my_map)
-    order_total = {order_total: "£24.98"}
-    expect(o).to receive(:sum).and_return(order_total)
+    expect(s1).to receive(:[]).with(0).and_return(d1)
+    expect(s1).to receive(:[]).with(1).and_return(2)
+    expect(s1).to receive(:[]).with(0).and_return(d1)
+    expect(s2).to receive(:[]).with(0).and_return(d2)
+    expect(s2).to receive(:[]).with(1).and_return(3)   
+    expect(s2).to receive(:[]).with(0).and_return(d2)
+    order_total = {order_total: 31.48}
+    expect(s1).to receive(:[]).with(0).and_return(d1)
+    expect(s1).to receive(:[]).with(1).and_return(2)
+    expect(s2).to receive(:[]).with(0).and_return(d2)
+    expect(s2).to receive(:[]).with(1).and_return(3)   
     c = Customer.new
     c.purchase(o)
     result = c.view_receipt
     output = [
-      {description: "Spaghetti Bolognese", qty: 2, line_total: "£11.98"},
-      {description: "Beef Stew", qty: 3, line_total: "£13.00"},
-      {order_total: "£24.98"}
+      {description: "Spaghetti Bolognese", qty: 2, line_total: 11.98},
+      {description: "Beef Stew", qty: 3, line_total: 19.5},
+      {order_total: 31.48}
     ]
     expect(result).to eq output
   end
