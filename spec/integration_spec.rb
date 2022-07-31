@@ -1,7 +1,7 @@
 require 'customer'
 
 RSpec.describe Customer do
-  xit "shows menu" do
+  it "shows menu" do
     spag_bol = Dish.new("Spaghetti Bolognese", 5.99)
     beef_stew = Dish.new("Beef Stew", 6.5)
     dishes = Dishes.new
@@ -10,8 +10,8 @@ RSpec.describe Customer do
     c = Customer.new
     result = c.menu_view(dishes)
     output = [
-      {description: "Spaghetti Bolognese", price: "£5.99"},
-      {description: "Beef Stew", price: "£6.5"}
+      {description: "Spaghetti Bolognese", price: 5.99},
+      {description: "Beef Stew", price: 6.5}
     ]
     expect(result).to eq output
   end
@@ -90,5 +90,15 @@ RSpec.describe Customer do
     o.add(s2)
     o.remove(s3)
     expect(o.contents).to eq({d1 => 1, d2 => 3})
+  end
+
+  xit "fails" do
+    dishes = Dishes.new
+    dishes.add(Dish.new("Spaghetti Bolognese", 5.99))
+    s1 = Selection.new(FindDish.new("Spaghetti Bolognese", dishes), 2)
+    s2 = Selection.new(FindDish.new("Beef Stew", dishes), 3)
+    o = Order.new
+    o.add(s1)
+    expect { o.remove(s2) }.to raise_error "Item not in basket!"
   end
 end

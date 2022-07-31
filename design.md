@@ -249,6 +249,15 @@ o.add(s1)
 o.add(s2)
 o.remove(s3)
 expect(o.contents) #=> {d1 => 1, d2 => 3}
+
+#7
+dishes = Dishes.new
+dishes.add(Dish.new("Spaghetti Bolognese", 5.99))
+s1 = Selection.new(FindDish.new("Spaghetti Bolognese", dishes), 2)
+s2 = Selection.new(FindDish.new("Beef Stew", dishes), 3)
+o = Order.new
+o.add(s1)
+expect { o.remove(s2) } #=> "Item not in basket!"
 ```
 
 # UNIT TESTS
@@ -259,5 +268,22 @@ dishes = Dishes.new
 expect(dishes.all) #=>fail "No dishes to show!"
 
 #2
+o = Order.new
+expect { o.remove(s3) }.to raise_error "Basket is empty!"
+
+#3
+dish = Dish.new("Spaghetti Bolognese", 5.99)
+result = dish.description
+expect(result).to eq "Spaghetti Bolognese"
+
+#4
+dish = Dish.new("Spaghetti Bolognese", 5.99)
+result = dish.price
+expect(result).to eq 5.99
+
+#5
+dish = Dish.new("Spaghetti Bolognese", 5.99)
+result = dish.view
+expect(result).to eq ({description: "Spaghetti Bolognese", price: 5.99})
 
 ```

@@ -4,7 +4,7 @@ class Customer
   end
 
   def menu_view(dishes) #dishes object
-    dishes.map(&:view)
+    dishes.all.map(&:view)
   end
     
   def purchase(order, time = Time.now) #order object

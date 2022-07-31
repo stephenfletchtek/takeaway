@@ -7,12 +7,14 @@ RSpec.describe Customer do
     beef_stew = double(:beef_stew,
       view: {description: "Beef Stew", price: "£6.50"})
     dishes = double(:dishes)
+    expect(dishes).to receive(:all)
+      .and_return([spag_bol, beef_stew])
     # think about this later
-    expect(dishes).to receive(:map)
-      .and_yield(spag_bol)
-      .and_yield(beef_stew)
-      .and_return([spag_bol.view, beef_stew.view])
-      c = Customer.new
+    # expect(dishes).to receive(:map)
+      # .and_yield(spag_bol)
+      # .and_yield(beef_stew)
+      # .and_return([spag_bol.view, beef_stew.view])
+    c = Customer.new
     result = c.menu_view(dishes)
     output = [
       {description: "Spaghetti Bolognese", price: "£5.99"},

@@ -11,7 +11,6 @@ class Order
     fail "Basket is empty!" if @hash.empty?
     fail "Item not in basket!" if @hash[selection.dish] == 0
     @hash[selection.dish] -= selection.qty
-    @hash = @hash.except(selection.dish) if @hash[selection.dish] == 0
   end
 
   def contents
